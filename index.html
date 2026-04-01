@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Generator - Economy Sign Supply</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.260.0/lucide.min.css" rel="stylesheet">
+    <style>
+        /* Estilos para la notificación Toast */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            margin-left: -125px;
+            background-color: #85be6d; /* Verde Corporativo */
+            color: #fff;
+            text-align: center;
+            border-radius: 8px;
+            padding: 16px;
+            position: fixed;
+            z-index: 1000;
+            left: 50%;
+            bottom: 30px;
+            font-size: 16px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            opacity: 0;
+            transition: opacity 0.3s, bottom 0.3s, visibility 0.3s;
+        }
+
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+        
+        /* Estilos para el toggle switch */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #85be6d;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #85be6d;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen font-sans">
+
+    <!-- Header -->
+    <header class="bg-white text-[#1e78a4] p-6 shadow-md">
+        <div class="max-w-6xl mx-auto flex items-center gap-4">
+            <img src="https://economysignsupply.com/wp-content/uploads/2024/07/ess-logo-svg-100.svg" alt="Economy Sign Supply" class="h-10">
+            <h1 class="text-2xl font-bold">ESS HTML signature generator</h1>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto p-6 mt-6 grid grid-cols-1 md:grid-cols-12 gap-8">
+        
+        <!-- Panel de Edición (Izquierda) -->
+        <div class="md:col-span-5 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h2 class="text-xl font-semibold mb-6 text-slate-800 border-b pb-2">Customize your information</h2>
+            
+            <form id="signature-form" class="space-y-4">
+                
+                <!-- Controles de Diseño -->
+                <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mb-6">
+                    <h3 class="text-sm font-semibold text-slate-800 mb-3">Style and Design</h3>
+                    
+                    <div class="grid grid-cols-3 gap-2 mb-4">
+                        <button type="button" onclick="setStyle(1)" id="btn-style-1" class="style-btn py-2 px-1 text-xs font-semibold rounded border transition-colors bg-[#1e78a4] text-white border-[#1e78a4]">1. Columns</button>
+                        <button type="button" onclick="setStyle(2)" id="btn-style-2" class="style-btn py-2 px-1 text-xs font-semibold rounded border transition-colors bg-white text-slate-600 border-slate-300 hover:bg-slate-100">2. Logo Top</button>
+                        <button type="button" onclick="setStyle(3)" id="btn-style-3" class="style-btn py-2 px-1 text-xs font-semibold rounded border transition-colors bg-white text-slate-600 border-slate-300 hover:bg-slate-100">3. Classic</button>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <label class="text-sm text-slate-700 cursor-pointer" for="toggle-labels">
+                            Show labels (T:, E:, W:, D:)
+                        </label>
+                        <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                            <input type="checkbox" name="toggle" id="toggle-labels" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 z-10" checked/>
+                            <label for="toggle-labels" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-colors duration-300"></label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+                    <input type="text" id="input-name" value="Javier Guevara" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] focus:border-[#1e78a4] outline-none transition-colors">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Job Title</label>
+                    <input type="text" id="input-title" value="Marketing - Dev" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] focus:border-[#1e78a4] outline-none transition-colors">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Phone</label>
+                        <input type="text" id="input-phone" value="+1305-514-0390" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] focus:border-[#1e78a4] outline-none transition-colors">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-slate-700 mb-1">Email Address</label>
+                        <input type="email" id="input-email" value="marketing@economysignsupply.com" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] focus:border-[#1e78a4] outline-none transition-colors">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Address</label>
+                    <input type="text" id="input-address" value="8070 NW 60th Street | Miami | FL 33166" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] focus:border-[#1e78a4] outline-none transition-colors">
+                </div>
+
+                <div class="pt-4 border-t mt-4">
+                    <h3 class="text-sm font-semibold text-slate-800 mb-3">Signature Colors</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">Main Color (Text/Links)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="input-color-main" value="#1e78a4" class="h-8 w-8 rounded cursor-pointer border-0 p-0">
+                                <span class="text-xs text-slate-500 font-mono" id="hex-main">#1e78a4</span>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-slate-600 mb-1">Accent Color (Icons/Lines)</label>
+                            <div class="flex items-center gap-2">
+                                <input type="color" id="input-color-accent" value="#85be6d" class="h-8 w-8 rounded cursor-pointer border-0 p-0">
+                                <span class="text-xs text-slate-500 font-mono" id="hex-accent">#85be6d</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pt-4 border-t mt-4">
+                    <h3 class="text-sm font-semibold text-slate-800 mb-3">Social Media (leave blank to hide)</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">LinkedIn URL</label>
+                            <input type="url" id="input-linkedin" value="https://www.linkedin.com/company/economysignsupply" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] outline-none transition-colors text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Facebook URL</label>
+                            <input type="url" id="input-facebook" value="https://www.facebook.com/economysignsupply" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] outline-none transition-colors text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">Instagram URL</label>
+                            <input type="url" id="input-instagram" value="https://www.instagram.com/economysignsupply/" class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] outline-none transition-colors text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-medium text-slate-700 mb-1">YouTube URL</label>
+                            <input type="url" id="input-youtube" value="https://www.youtube.com/@economysignsupply8348" placeholder="https://youtube.com/..." class="w-full p-2 border border-slate-300 rounded focus:ring-2 focus:ring-[#1e78a4] outline-none transition-colors text-sm">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Vista Previa (Derecha) -->
+        <div class="md:col-span-7 flex flex-col gap-6">
+            
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 overflow-x-auto min-h-[300px] flex items-center justify-center bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTAgMGgyMHYyMEgweiIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyIiByPSIyIiBmaWxsPSIjZTJlOGYwIi8+PC9zdmc+')]">
+                
+                <!-- CONTENEDOR DE LA FIRMA -->
+                <div id="signature-container" style="background-color: #ffffff; padding: 20px; border-radius: 8px;">
+                    <!-- La firma se inyectará aquí vía JavaScript -->
+                </div>
+                
+            </div>
+
+            <!-- Botones de Acción y Ayuda -->
+            <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-sm text-slate-700">
+                    <p class="font-semibold mb-1 text-slate-900">How to install?</p>
+                    <ol class="list-decimal ml-4 opacity-90 space-y-1">
+                        <li>Click on "Copy Signature".</li>
+                        <li>Open your email client (Outlook, Gmail, Apple Mail).</li>
+                        <li>Go to Settings > Signature.</li>
+                        <li>Paste (Ctrl+V or Cmd+V) the signature into the editor and save.</li>
+                    </ol>
+                </div>
+                <button onclick="copySignature()" class="w-full sm:w-auto text-white font-bold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 whitespace-nowrap" style="background-color: #1e78a4;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+                    Copy Signature
+                </button>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Elemento para notificaciones -->
+    <div id="toast">Signature copied to clipboard successfully!</div>
+
+    <script>
+        let currentStyle = 1;
+
+        const inputs = {
+            name: document.getElementById('input-name'),
+            title: document.getElementById('input-title'),
+            phone: document.getElementById('input-phone'),
+            email: document.getElementById('input-email'),
+            address: document.getElementById('input-address'),
+            colorMain: document.getElementById('input-color-main'),
+            colorAccent: document.getElementById('input-color-accent'),
+            linkedin: document.getElementById('input-linkedin'),
+            facebook: document.getElementById('input-facebook'),
+            instagram: document.getElementById('input-instagram'),
+            youtube: document.getElementById('input-youtube'),
+            toggleLabels: document.getElementById('toggle-labels')
+        };
+
+        const hexMain = document.getElementById('hex-main');
+        const hexAccent = document.getElementById('hex-accent');
+        const signatureContainer = document.getElementById('signature-container');
+
+        // Función para cambiar el estilo visual de los botones
+        function setStyle(styleId) {
+            currentStyle = styleId;
+            
+            // Actualizar UI de botones
+            document.querySelectorAll('.style-btn').forEach(btn => {
+                btn.className = "style-btn py-2 px-1 text-xs font-semibold rounded border transition-colors bg-white text-slate-600 border-slate-300 hover:bg-slate-100";
+            });
+            
+            const activeBtn = document.getElementById(`btn-style-${styleId}`);
+            activeBtn.className = "style-btn py-2 px-1 text-xs font-semibold rounded border transition-colors text-white";
+            activeBtn.style.backgroundColor = inputs.colorMain.value;
+            activeBtn.style.borderColor = inputs.colorMain.value;
+
+            updateSignature();
+        }
+
+        // Helper para generar los íconos de redes sociales
+        function getSocialHTML(data, alignment = 'left') {
+            let html = `<table cellpadding="0" cellspacing="0" border="0" style="margin-top: 4px;"><tr>`;
+            const iconProps = `width="22" style="display: block; border: 0;"`;
+            
+            if (data.linkedin) html += `<td style="padding-right: 12px;"><a href="${data.linkedin}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/linkedin.png" ${iconProps} alt="LinkedIn"></a></td>`;
+            if (data.facebook) html += `<td style="padding-right: 12px;"><a href="${data.facebook}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/facebook-new.png" ${iconProps} alt="Facebook"></a></td>`;
+            if (data.instagram) html += `<td style="padding-right: 12px;"><a href="${data.instagram}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/instagram-new.png" ${iconProps} alt="Instagram"></a></td>`;
+            if (data.youtube) html += `<td style="padding-right: 12px;"><a href="${data.youtube}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/youtube-play.png" ${iconProps} alt="YouTube"></a></td>`;
+            
+            html += `</tr></table>`;
+            return html;
+        }
+
+        // ================= PLANTILLAS DE FIRMAS =================
+
+        // ESTILO 1: Dos Columnas
+        function renderStyle1(data) {
+            const lblT = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px;"><span style="color: ${data.accentColor}; font-weight: bold;">T:</span></td>` : '';
+            const lblE = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px;"><span style="color: ${data.accentColor}; font-weight: bold;">E:</span></td>` : '';
+            const lblW = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px;"><span style="color: ${data.accentColor}; font-weight: bold;">W:</span></td>` : '';
+            const lblD = data.showLabels ? `<td valign="top" style="padding-bottom: 12px; padding-right: 8px;"><span style="color: ${data.accentColor}; font-weight: bold;">D:</span></td>` : '';
+
+            return `
+            <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #333333; line-height: 1.5; background-color: #ffffff;">
+                <tr>
+                    <td valign="middle" style="padding-right: 24px; border-right: 3px solid ${data.accentColor};">
+                        <a href="https://economysignsupply.com/" target="_blank" style="text-decoration: none;">
+                            <img src="${data.logoUrl}" alt="Economy Sign Supply" width="180" style="display: block; max-width: 180px; width: 100%; height: auto; border: 0;">
+                        </a>
+                    </td>
+                    <td valign="middle" style="padding-left: 24px;">
+                        <div style="font-size: 22px; font-weight: 700; color: ${data.mainColor}; margin-bottom: 2px; line-height: 1.2;">${data.name}</div>
+                        <div style="font-size: 13px; color: ${data.accentColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; line-height: 1.2;">${data.title}</div>
+                        <table cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #4b5563;">
+                            <tr>
+                                ${lblT}
+                                <td valign="top" style="padding-bottom: 4px;"><a href="tel:${data.phoneClean}" style="color: #4b5563; text-decoration: none;">${data.phone}</a></td>
+                            </tr>
+                            <tr>
+                                ${lblE}
+                                <td valign="top" style="padding-bottom: 4px;"><a href="mailto:${data.email}" style="color: ${data.mainColor}; text-decoration: none; font-weight: bold;">${data.email}</a></td>
+                            </tr>
+                            <tr>
+                                ${lblW}
+                                <td valign="top" style="padding-bottom: 4px;"><a href="https://economysignsupply.com/" target="_blank" style="color: ${data.mainColor}; text-decoration: none;">www.economysignsupply.com</a></td>
+                            </tr>
+                            <tr>
+                                ${lblD}
+                                <td valign="top" style="padding-bottom: 12px;"><span>${data.address}</span></td>
+                            </tr>
+                        </table>
+                        ${getSocialHTML(data)}
+                    </td>
+                </tr>
+            </table>`;
+        }
+
+        // ESTILO 2: Logo Arriba (Centrado)
+        function renderStyle2(data) {
+            const lblT = data.showLabels ? `<span style="color: ${data.accentColor}; font-weight: bold; margin-right: 4px;">T:</span>` : '';
+            const lblE = data.showLabels ? `<span style="color: ${data.accentColor}; font-weight: bold; margin-right: 4px;">E:</span>` : '';
+            const lblW = data.showLabels ? `<span style="color: ${data.accentColor}; font-weight: bold; margin-right: 4px;">W:</span>` : '';
+
+            return `
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #4b5563; line-height: 1.5; background-color: #ffffff; text-align: center; max-width: 400px;">
+                <tr>
+                    <td align="center" style="padding-bottom: 16px;">
+                        <a href="https://economysignsupply.com/" target="_blank" style="text-decoration: none;">
+                            <img src="${data.logoUrl}" alt="Economy Sign Supply" width="180" style="display: block; margin: 0 auto; max-width: 180px; border: 0;">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="center">
+                        <div style="font-size: 20px; font-weight: 700; color: ${data.mainColor}; line-height: 1.2;">${data.name}</div>
+                        <div style="font-size: 13px; color: ${data.accentColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">${data.title}</div>
+                        
+                        <div style="margin: 16px auto; width: 40px; border-top: 3px solid ${data.accentColor};"></div>
+                        
+                        <div style="margin-bottom: 6px;">
+                            ${lblT}<a href="tel:${data.phoneClean}" style="color: #4b5563; text-decoration: none;">${data.phone}</a>
+                            <span style="color: #d1d5db; margin: 0 8px;">|</span>
+                            ${lblE}<a href="mailto:${data.email}" style="color: ${data.mainColor}; text-decoration: none;">${data.email}</a>
+                        </div>
+                        <div style="margin-bottom: 12px;">
+                            ${lblW}<a href="https://economysignsupply.com/" target="_blank" style="color: ${data.mainColor}; text-decoration: none;">www.economysignsupply.com</a>
+                        </div>
+                        <div style="margin-bottom: 16px; color: #6b7280; font-size: 12px;">
+                            ${data.address}
+                        </div>
+                        
+                        <table cellpadding="0" cellspacing="0" border="0" align="center" style="margin: 0 auto;">
+                            <tr>
+                                ${data.linkedin ? `<td style="padding: 0 6px;"><a href="${data.linkedin}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/linkedin.png" width="22" style="display: block; border: 0;" alt="LinkedIn"></a></td>` : ''}
+                                ${data.facebook ? `<td style="padding: 0 6px;"><a href="${data.facebook}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/facebook-new.png" width="22" style="display: block; border: 0;" alt="Facebook"></a></td>` : ''}
+                                ${data.instagram ? `<td style="padding: 0 6px;"><a href="${data.instagram}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/instagram-new.png" width="22" style="display: block; border: 0;" alt="Instagram"></a></td>` : ''}
+                                ${data.youtube ? `<td style="padding: 0 6px;"><a href="${data.youtube}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/youtube-play.png" width="22" style="display: block; border: 0;" alt="YouTube"></a></td>` : ''}
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>`;
+        }
+
+        // ESTILO 3: Clásico (Como la imagen de referencia)
+        function renderStyle3(data) {
+            const lblT = data.showLabels ? `<span style="color: #4b5563;">T: </span>` : '';
+            const lblE = data.showLabels ? `<span style="color: #4b5563;">e: </span>` : '';
+            // En este diseño la W no suele usarse así, pero la mantenemos si el usuario la activa
+            const lblW = data.showLabels ? `<span style="color: #4b5563;">w: </span>` : '';
+
+            return `
+            <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #4b5563; line-height: 1.5; background-color: #ffffff; width: 100%; max-width: 500px;">
+                <tr>
+                    <td style="padding-bottom: 2px;">
+                        <div style="font-size: 18px; font-weight: 700; color: ${data.mainColor};">${data.name}</div>
+                        <div style="font-size: 13px; color: #6b7280;">${data.title}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding: 8px 0 12px 0;">
+                        <div style="border-top: 1px solid #111827; width: 100%;"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-bottom: 12px;">
+                        <a href="https://economysignsupply.com/" target="_blank" style="text-decoration: none;">
+                            <img src="${data.logoUrl}" alt="Economy Sign Supply" width="160" style="display: block; max-width: 160px; border: 0;">
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-bottom: 4px; color: #4b5563;">
+                        ${data.address}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-bottom: 4px; color: #4b5563;">
+                        ${lblT}<a href="tel:${data.phoneClean}" style="color: #4b5563; text-decoration: none; font-weight: 600;">${data.phone}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding-bottom: 16px; color: #4b5563;">
+                        ${lblW}<a href="https://economysignsupply.com/" target="_blank" style="color: ${data.mainColor}; text-decoration: underline;">www.economysignsupply.com</a> 
+                        <span style="color: #9ca3af; margin: 0 4px;">|</span> 
+                        ${lblE}<a href="mailto:${data.email}" style="color: ${data.mainColor}; text-decoration: underline;">${data.email}</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                ${data.linkedin ? `<td style="padding-right: 12px;"><a href="${data.linkedin}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/linkedin.png" width="18" style="display: block; border: 0;" alt="LinkedIn"></a></td>` : ''}
+                                ${data.facebook ? `<td style="padding-right: 12px;"><a href="${data.facebook}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/facebook-new.png" width="18" style="display: block; border: 0;" alt="Facebook"></a></td>` : ''}
+                                ${data.instagram ? `<td style="padding-right: 12px;"><a href="${data.instagram}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/instagram-new.png" width="18" style="display: block; border: 0;" alt="Instagram"></a></td>` : ''}
+                                ${data.youtube ? `<td style="padding-right: 12px;"><a href="${data.youtube}" target="_blank"><img src="https://img.icons8.com/ios-filled/50/${data.accentHex}/youtube-play.png" width="18" style="display: block; border: 0;" alt="YouTube"></a></td>` : ''}
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>`;
+        }
+
+
+        // ================= LÓGICA PRINCIPAL =================
+
+        function updateSignature() {
+            // Recolectar datos actuales
+            const data = {
+                logoUrl: 'https://static.wixstatic.com/media/63d26f_c1a293a0b9cd4c379a17696a06d2a808~mv2.png',
+                name: inputs.name.value || 'Your Name',
+                title: inputs.title.value || 'Your Title',
+                phone: inputs.phone.value || '+1305-514-0390',
+                phoneClean: (inputs.phone.value || '').replace(/[^0-9+]/g, ''),
+                email: inputs.email.value || 'marketing@economysignsupply.com',
+                address: inputs.address.value || '8070 NW 60th Street | Miami | FL 33166',
+                mainColor: inputs.colorMain.value,
+                accentColor: inputs.colorAccent.value,
+                accentHex: inputs.colorAccent.value.replace('#', ''),
+                linkedin: inputs.linkedin.value.trim(),
+                facebook: inputs.facebook.value.trim(),
+                instagram: inputs.instagram.value.trim(),
+                youtube: inputs.youtube.value.trim(),
+                showLabels: inputs.toggleLabels.checked
+            };
+
+            // Actualizar textos hex en UI
+            hexMain.innerText = data.mainColor;
+            hexAccent.innerText = data.accentColor;
+
+            // Actualizar color de fondo del botón activo para coincidir con el tema
+            const activeBtn = document.getElementById(`btn-style-${currentStyle}`);
+            activeBtn.style.backgroundColor = data.mainColor;
+            activeBtn.style.borderColor = data.mainColor;
+
+            // Generar HTML según el estilo seleccionado
+            let html = '';
+            if (currentStyle === 1) html = renderStyle1(data);
+            if (currentStyle === 2) html = renderStyle2(data);
+            if (currentStyle === 3) html = renderStyle3(data);
+
+            // Inyectar en el contenedor
+            signatureContainer.innerHTML = html;
+        }
+
+        // Event Listeners
+        Object.values(inputs).forEach(input => {
+            if (input.type === 'checkbox') {
+                input.addEventListener('change', updateSignature);
+            } else {
+                input.addEventListener('input', updateSignature);
+            }
+        });
+
+        // Función para copiar (Mejorada)
+        function copySignature() {
+            const container = document.getElementById("signature-container");
+            const range = document.createRange();
+            
+            // Usar selectNodeContents suele ser más confiable para capturar el contenido interno, 
+            // incluyendo imágenes en algunos navegadores.
+            range.selectNodeContents(container);
+            
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            
+            try {
+                document.execCommand("copy");
+                showToast();
+            } catch (err) {
+                console.error('Error al copiar: ', err);
+            }
+            window.getSelection().removeAllRanges();
+        }
+
+        function showToast() {
+            const toast = document.getElementById("toast");
+            toast.className = "show";
+            setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
+        }
+
+        // Inicializar
+        updateSignature();
+    </script>
+</body>
+</html>
