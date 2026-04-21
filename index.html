@@ -7,12 +7,11 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.260.0/lucide.min.css" rel="stylesheet">
     <style>
-        /* Estilos para la notificación Toast */
         #toast {
             visibility: hidden;
             min-width: 250px;
             margin-left: -125px;
-            background-color: #85be6d; /* Verde Corporativo */
+            background-color: #85be6d;
             color: #fff;
             text-align: center;
             border-radius: 8px;
@@ -33,7 +32,6 @@
             bottom: 50px;
         }
         
-        /* Estilos para el toggle switch */
         .toggle-checkbox:checked {
             right: 0;
             border-color: #85be6d;
@@ -45,7 +43,6 @@
 </head>
 <body class="bg-slate-50 min-h-screen font-sans">
 
-    <!-- Header -->
     <header class="bg-white text-[#1e78a4] p-6 shadow-md">
         <div class="max-w-6xl mx-auto flex items-center gap-4">
             <img src="https://economysignsupply.com/wp-content/uploads/2024/07/ess-logo-svg-100.svg" alt="Economy Sign Supply" class="h-10">
@@ -55,13 +52,11 @@
 
     <main class="max-w-6xl mx-auto p-6 mt-6 grid grid-cols-1 md:grid-cols-12 gap-8">
         
-        <!-- Panel de Edición (Izquierda) -->
         <div class="md:col-span-5 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
             <h2 class="text-xl font-semibold mb-6 text-slate-800 border-b pb-2">Customize your information</h2>
             
             <form id="signature-form" class="space-y-4">
                 
-                <!-- Controles de Diseño -->
                 <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mb-6">
                     <h3 class="text-sm font-semibold text-slate-800 mb-3">Style and Design</h3>
                     
@@ -152,19 +147,15 @@
             </form>
         </div>
 
-        <!-- Vista Previa (Derecha) -->
         <div class="md:col-span-7 flex flex-col gap-6">
             
             <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-200 overflow-x-auto min-h-[300px] flex items-center justify-center bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCI+PHBhdGggZD0iTTAgMGgyMHYyMEgweiIgZmlsbD0ibm9uZSIvPjxjaXJjbGUgY3g9IjIiIGN5PSIyIiByPSIyIiBmaWxsPSIjZTJlOGYwIi8+PC9zdmc+')]">
                 
-                <!-- CONTENEDOR DE LA FIRMA -->
                 <div id="signature-container" style="background-color: #ffffff; padding: 20px; border-radius: 8px;">
-                    <!-- La firma se inyectará aquí vía JavaScript -->
                 </div>
                 
             </div>
 
-            <!-- Botones de Acción y Ayuda -->
             <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div class="text-sm text-slate-700">
                     <p class="font-semibold mb-1 text-slate-900">How to install?</p>
@@ -184,7 +175,6 @@
         </div>
     </main>
 
-    <!-- Elemento para notificaciones -->
     <div id="toast">Signature copied to clipboard successfully!</div>
 
     <script>
@@ -209,11 +199,9 @@
         const hexAccent = document.getElementById('hex-accent');
         const signatureContainer = document.getElementById('signature-container');
 
-        // Función para cambiar el estilo visual de los botones
         function setStyle(styleId) {
             currentStyle = styleId;
             
-            // Actualizar UI de botones
             document.querySelectorAll('.style-btn').forEach(btn => {
                 btn.className = "style-btn py-2 px-1 text-xs font-semibold rounded border transition-colors bg-white text-slate-600 border-slate-300 hover:bg-slate-100";
             });
@@ -226,7 +214,6 @@
             updateSignature();
         }
 
-        // Helper para generar los íconos de redes sociales
         function getSocialHTML(data, alignment = 'left') {
             let html = `<table cellpadding="0" cellspacing="0" border="0" style="margin-top: 4px;"><tr>`;
             const iconProps = `width="22" style="display: block; border: 0;"`;
@@ -240,38 +227,35 @@
             return html;
         }
 
-        // ================= PLANTILLAS DE FIRMAS =================
-
-        // ESTILO 1: Dos Columnas
         function renderStyle1(data) {
-            const lblT = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px;"><span style="color: ${data.accentColor}; font-weight: bold;">T:</span></td>` : '';
-            const lblE = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px;"><span style="color: ${data.accentColor}; font-weight: bold;">E:</span></td>` : '';
-            const lblW = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px;"><span style="color: ${data.accentColor}; font-weight: bold;">W:</span></td>` : '';
-            const lblD = data.showLabels ? `<td valign="top" style="padding-bottom: 12px; padding-right: 8px;"><span style="color: ${data.accentColor}; font-weight: bold;">D:</span></td>` : '';
+            const lblT = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px; white-space: nowrap;"><span style="color: ${data.accentColor}; font-weight: bold;">T:</span></td>` : '';
+            const lblE = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px; white-space: nowrap;"><span style="color: ${data.accentColor}; font-weight: bold;">E:</span></td>` : '';
+            const lblW = data.showLabels ? `<td valign="top" style="padding-bottom: 4px; padding-right: 8px; white-space: nowrap;"><span style="color: ${data.accentColor}; font-weight: bold;">W:</span></td>` : '';
+            const lblD = data.showLabels ? `<td valign="top" style="padding-bottom: 12px; padding-right: 8px; white-space: nowrap;"><span style="color: ${data.accentColor}; font-weight: bold;">D:</span></td>` : '';
 
             return `
-            <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #333333; line-height: 1.5; background-color: #ffffff;">
+            <table cellpadding="0" cellspacing="0" border="0" width="520" style="width: 520px; min-width: 520px; font-family: Arial, Helvetica, sans-serif; font-size: 14px; color: #333333; line-height: 1.5; background-color: #ffffff;">
                 <tr>
-                    <td valign="middle" style="padding-right: 24px; border-right: 3px solid ${data.accentColor};">
+                    <td valign="middle" width="180" style="width: 180px; min-width: 180px; padding-right: 24px; border-right: 3px solid ${data.accentColor};">
                         <a href="https://economysignsupply.com/" target="_blank" style="text-decoration: none;">
                             <img src="${data.logoUrl}" alt="Economy Sign Supply" width="180" style="display: block; max-width: 180px; width: 100%; height: auto; border: 0;">
                         </a>
                     </td>
                     <td valign="middle" style="padding-left: 24px;">
-                        <div style="font-size: 22px; font-weight: 700; color: ${data.mainColor}; margin-bottom: 2px; line-height: 1.2;">${data.name}</div>
-                        <div style="font-size: 13px; color: ${data.accentColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; line-height: 1.2;">${data.title}</div>
+                        <div style="font-size: 22px; font-weight: 700; color: ${data.mainColor}; margin-bottom: 2px; line-height: 1.2; white-space: nowrap;">${data.name}</div>
+                        <div style="font-size: 13px; color: ${data.accentColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 12px; line-height: 1.2; white-space: nowrap;">${data.title}</div>
                         <table cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; color: #4b5563;">
                             <tr>
                                 ${lblT}
-                                <td valign="top" style="padding-bottom: 4px;"><a href="tel:${data.phoneClean}" style="color: #4b5563; text-decoration: none;">${data.phone}</a></td>
+                                <td valign="top" style="padding-bottom: 4px; white-space: nowrap;"><a href="tel:${data.phoneClean}" style="color: #4b5563; text-decoration: none;">${data.phone}</a></td>
                             </tr>
                             <tr>
                                 ${lblE}
-                                <td valign="top" style="padding-bottom: 4px;"><a href="mailto:${data.email}" style="color: ${data.mainColor}; text-decoration: none; font-weight: bold;">${data.email}</a></td>
+                                <td valign="top" style="padding-bottom: 4px; white-space: nowrap;"><a href="mailto:${data.email}" style="color: ${data.mainColor}; text-decoration: none; font-weight: bold;">${data.email}</a></td>
                             </tr>
                             <tr>
                                 ${lblW}
-                                <td valign="top" style="padding-bottom: 4px;"><a href="https://economysignsupply.com/" target="_blank" style="color: ${data.mainColor}; text-decoration: none;">www.economysignsupply.com</a></td>
+                                <td valign="top" style="padding-bottom: 4px; white-space: nowrap;"><a href="https://economysignsupply.com/" target="_blank" style="color: ${data.mainColor}; text-decoration: none;">www.economysignsupply.com</a></td>
                             </tr>
                             <tr>
                                 ${lblD}
@@ -284,14 +268,13 @@
             </table>`;
         }
 
-        // ESTILO 2: Logo Arriba (Centrado)
         function renderStyle2(data) {
             const lblT = data.showLabels ? `<span style="color: ${data.accentColor}; font-weight: bold; margin-right: 4px;">T:</span>` : '';
             const lblE = data.showLabels ? `<span style="color: ${data.accentColor}; font-weight: bold; margin-right: 4px;">E:</span>` : '';
             const lblW = data.showLabels ? `<span style="color: ${data.accentColor}; font-weight: bold; margin-right: 4px;">W:</span>` : '';
 
             return `
-            <table cellpadding="0" cellspacing="0" border="0" width="100%" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #4b5563; line-height: 1.5; background-color: #ffffff; text-align: center; max-width: 400px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="400" style="width: 400px; min-width: 400px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #4b5563; line-height: 1.5; background-color: #ffffff; text-align: center;">
                 <tr>
                     <td align="center" style="padding-bottom: 16px;">
                         <a href="https://economysignsupply.com/" target="_blank" style="text-decoration: none;">
@@ -301,17 +284,17 @@
                 </tr>
                 <tr>
                     <td align="center">
-                        <div style="font-size: 20px; font-weight: 700; color: ${data.mainColor}; line-height: 1.2;">${data.name}</div>
-                        <div style="font-size: 13px; color: ${data.accentColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">${data.title}</div>
+                        <div style="font-size: 20px; font-weight: 700; color: ${data.mainColor}; line-height: 1.2; white-space: nowrap;">${data.name}</div>
+                        <div style="font-size: 13px; color: ${data.accentColor}; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap;">${data.title}</div>
                         
                         <div style="margin: 16px auto; width: 40px; border-top: 3px solid ${data.accentColor};"></div>
                         
-                        <div style="margin-bottom: 6px;">
+                        <div style="margin-bottom: 6px; white-space: nowrap;">
                             ${lblT}<a href="tel:${data.phoneClean}" style="color: #4b5563; text-decoration: none;">${data.phone}</a>
                             <span style="color: #d1d5db; margin: 0 8px;">|</span>
                             ${lblE}<a href="mailto:${data.email}" style="color: ${data.mainColor}; text-decoration: none;">${data.email}</a>
                         </div>
-                        <div style="margin-bottom: 12px;">
+                        <div style="margin-bottom: 12px; white-space: nowrap;">
                             ${lblW}<a href="https://economysignsupply.com/" target="_blank" style="color: ${data.mainColor}; text-decoration: none;">www.economysignsupply.com</a>
                         </div>
                         <div style="margin-bottom: 16px; color: #6b7280; font-size: 12px;">
@@ -331,19 +314,17 @@
             </table>`;
         }
 
-        // ESTILO 3: Clásico (Como la imagen de referencia)
         function renderStyle3(data) {
             const lblT = data.showLabels ? `<span style="color: #4b5563;">T: </span>` : '';
             const lblE = data.showLabels ? `<span style="color: #4b5563;">e: </span>` : '';
-            // En este diseño la W no suele usarse así, pero la mantenemos si el usuario la activa
             const lblW = data.showLabels ? `<span style="color: #4b5563;">w: </span>` : '';
 
             return `
-            <table cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #4b5563; line-height: 1.5; background-color: #ffffff; width: 100%; max-width: 500px;">
+            <table cellpadding="0" cellspacing="0" border="0" width="500" style="width: 500px; min-width: 500px; font-family: Arial, Helvetica, sans-serif; font-size: 13px; color: #4b5563; line-height: 1.5; background-color: #ffffff;">
                 <tr>
                     <td style="padding-bottom: 2px;">
-                        <div style="font-size: 18px; font-weight: 700; color: ${data.mainColor};">${data.name}</div>
-                        <div style="font-size: 13px; color: #6b7280;">${data.title}</div>
+                        <div style="font-size: 18px; font-weight: 700; color: ${data.mainColor}; white-space: nowrap;">${data.name}</div>
+                        <div style="font-size: 13px; color: #6b7280; white-space: nowrap;">${data.title}</div>
                     </td>
                 </tr>
                 <tr>
@@ -364,12 +345,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td style="padding-bottom: 4px; color: #4b5563;">
+                    <td style="padding-bottom: 4px; color: #4b5563; white-space: nowrap;">
                         ${lblT}<a href="tel:${data.phoneClean}" style="color: #4b5563; text-decoration: none; font-weight: 600;">${data.phone}</a>
                     </td>
                 </tr>
                 <tr>
-                    <td style="padding-bottom: 16px; color: #4b5563;">
+                    <td style="padding-bottom: 16px; color: #4b5563; white-space: nowrap;">
                         ${lblW}<a href="https://economysignsupply.com/" target="_blank" style="color: ${data.mainColor}; text-decoration: underline;">www.economysignsupply.com</a> 
                         <span style="color: #9ca3af; margin: 0 4px;">|</span> 
                         ${lblE}<a href="mailto:${data.email}" style="color: ${data.mainColor}; text-decoration: underline;">${data.email}</a>
@@ -390,11 +371,7 @@
             </table>`;
         }
 
-
-        // ================= LÓGICA PRINCIPAL =================
-
         function updateSignature() {
-            // Recolectar datos actuales
             const data = {
                 logoUrl: 'https://static.wixstatic.com/media/63d26f_c1a293a0b9cd4c379a17696a06d2a808~mv2.png',
                 name: inputs.name.value || 'Your Name',
@@ -413,26 +390,21 @@
                 showLabels: inputs.toggleLabels.checked
             };
 
-            // Actualizar textos hex en UI
             hexMain.innerText = data.mainColor;
             hexAccent.innerText = data.accentColor;
 
-            // Actualizar color de fondo del botón activo para coincidir con el tema
             const activeBtn = document.getElementById(`btn-style-${currentStyle}`);
             activeBtn.style.backgroundColor = data.mainColor;
             activeBtn.style.borderColor = data.mainColor;
 
-            // Generar HTML según el estilo seleccionado
             let html = '';
             if (currentStyle === 1) html = renderStyle1(data);
             if (currentStyle === 2) html = renderStyle2(data);
             if (currentStyle === 3) html = renderStyle3(data);
 
-            // Inyectar en el contenedor
             signatureContainer.innerHTML = html;
         }
 
-        // Event Listeners
         Object.values(inputs).forEach(input => {
             if (input.type === 'checkbox') {
                 input.addEventListener('change', updateSignature);
@@ -441,13 +413,10 @@
             }
         });
 
-        // Función para copiar (Mejorada)
         function copySignature() {
             const container = document.getElementById("signature-container");
             const range = document.createRange();
             
-            // Usar selectNodeContents suele ser más confiable para capturar el contenido interno, 
-            // incluyendo imágenes en algunos navegadores.
             range.selectNodeContents(container);
             
             window.getSelection().removeAllRanges();
@@ -468,7 +437,6 @@
             setTimeout(function(){ toast.className = toast.className.replace("show", ""); }, 3000);
         }
 
-        // Inicializar
         updateSignature();
     </script>
 </body>
